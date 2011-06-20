@@ -1,7 +1,41 @@
+
+// For strchrnul
+#define _GNU_SOURCE
+
+#include <math.h>
+#include <string.h>
+#include <libgen.h>
+
 #include <gtk/gtk.h>
+
 #include <cairo-pdf.h>
 #include <cairo-svg.h>
-#include <math.h>
+#include <cairo-ps.h>
+
+void pdfscreenshot_type_selected(GtkComboBox *format_combo, GtkFileChooser *chooser) {
+    const char *the_id = gtk_combo_box_get_active_id(GTK_COMBO_BOX(format_combo));
+
+    // Update filter
+    GtkFileFilter *filter = gtk_file_filter_new ();
+    char *pattern = g_strdup_printf("*.%s", the_id);
+    gtk_file_filter_add_pattern (filter, pattern);
+    gtk_file_chooser_set_filter (GTK_FILE_CHOOSER(chooser), filter);
+
+    // Update filename extension
+    gchar *filename = gtk_file_chooser_get_filename(chooser);
+    if (filename != NULL)  {
+        // strup result from basename as we are going to modify it.
+        char *base = g_strdup(basename(filename));
+        // Remove extension from string, if there is one.
+        *(strchrnul(base, '.')) = '\0';
+        
+        char *new_filename = g_strdup_printf("%s.%s", base, the_id);
+        gtk_file_chooser_set_current_name(chooser, new_filename);
+        g_free(filename);
+        g_free(base);
+        g_free(new_filename);
+    }
+}
 
 void pdfscreenshot_draw_preview (GtkWidget *widget, cairo_t *cr, gpointer window) {
 
@@ -20,33 +54,28 @@ void pdfscreenshot_draw_preview (GtkWidget *widget, cairo_t *cr, gpointer window
     gtk_widget_draw(window, cr);
 }
 
-void pdfscreenshot_draw_to_pdf (GtkWidget *widget, const gchar* filename) {
+void pdfscreenshot_draw_to_vector (GtkWidget *widget, const gchar* filename, cairo_surface_t * create_surface(const char *, double , double )) {
     cairo_surface_t *surface = 
-            cairo_pdf_surface_create(filename,
+            create_surface(filename,
                     1.0*gtk_widget_get_allocated_width (widget),
                     1.0*gtk_widget_get_allocated_height (widget));
     cairo_t *cr  = cairo_create(surface);
     gtk_widget_draw(widget, cr);
     cairo_destroy(cr);
-    cairo_surface_show_page(surface);
-    cairo_surface_finish(surface);
     cairo_surface_destroy(surface);
 }
 
-
-void pdfscreenshot_draw_to_svg (GtkWidget *widget, const gchar* filename) {
-    cairo_surface_t *surface = 
-            cairo_svg_surface_create(filename,
-                    1.0*gtk_widget_get_allocated_width (widget),
-                    1.0*gtk_widget_get_allocated_height (widget));
+void pdfscreenshot_draw_to_png (GtkWidget *widget, const gchar* filename) {
+    cairo_surface_t *surface = cairo_image_surface_create (
+                    CAIRO_FORMAT_ARGB32,
+                    gtk_widget_get_allocated_width (widget),
+                    gtk_widget_get_allocated_height (widget));
     cairo_t *cr  = cairo_create(surface);
     gtk_widget_draw(widget, cr);
     cairo_destroy(cr);
-    cairo_surface_show_page(surface);
-    cairo_surface_finish(surface);
+    cairo_surface_write_to_png (surface, filename);
     cairo_surface_destroy(surface);
 }
-
 
 void
 pdfscreenshot_take_shot (GtkButton *button, gpointer our_window) {
@@ -60,7 +89,7 @@ pdfscreenshot_take_shot (GtkButton *button, gpointer our_window) {
             g_object_ref(window);
 
             GtkWidget *chooser = gtk_file_chooser_dialog_new (
-                "Save PDF screenshot",
+                "Save vector screenshot",
                 our_window,
                 GTK_FILE_CHOOSER_ACTION_SAVE,
                 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
@@ -75,24 +104,19 @@ pdfscreenshot_take_shot (GtkButton *button, gpointer our_window) {
             gtk_window_set_transient_for (GTK_WINDOW(chooser), GTK_WINDOW(our_window));
             gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (chooser), TRUE);
 
-            GtkFileFilter *pdf_filter = gtk_file_filter_new ();
-            gtk_file_filter_add_pattern (pdf_filter, "*.pdf");
-            gtk_file_filter_set_name (pdf_filter,"PDF files (*.pdf)");
-            gtk_file_chooser_add_filter (GTK_FILE_CHOOSER(chooser), pdf_filter);
-            //gtk_file_chooser_set_filter (GTK_FILE_CHOOSER(chooser), pdf_filter);
-
-            GtkFileFilter *svg_filter = gtk_file_filter_new ();
-            gtk_file_filter_add_pattern (svg_filter, "*.svg");
-            gtk_file_filter_set_name (svg_filter,"SVG files (*.svg)");
-            gtk_file_chooser_add_filter (GTK_FILE_CHOOSER(chooser), svg_filter);
-            gtk_file_chooser_set_filter (GTK_FILE_CHOOSER(chooser), svg_filter);
-
             GtkWidget *format_combo = gtk_combo_box_text_new ();
             gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(format_combo)
-                                     , "pdf" ,"PDF Files (*.pdf)");
+                                     , "pdf" ,"Save as PDF (*.pdf)");
             gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(format_combo)
-                                     , "svg" ,"SVG Files (*.svg)");
+                                     , "svg" ,"Save as SVG (*.svg)");
+            gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(format_combo)
+                                     , "ps" ,"Save as PostScript (*.ps)");
+            gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(format_combo)
+                                     , "png" ,"Save as PNG (*.png)");
             gtk_combo_box_set_active(GTK_COMBO_BOX(format_combo),0);
+            pdfscreenshot_type_selected(GTK_COMBO_BOX(format_combo), GTK_FILE_CHOOSER(chooser));
+	    g_signal_connect(GTK_COMBO_BOX(format_combo),"changed",
+	    	G_CALLBACK(pdfscreenshot_type_selected), chooser);
 
 
             GtkWidget *drawing_area = gtk_drawing_area_new ();
@@ -114,13 +138,21 @@ pdfscreenshot_take_shot (GtkButton *button, gpointer our_window) {
                 char *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (chooser));
 		//GtkFileFilter *the_filter = gtk_file_chooser_get_filter(GTK_FILE_CHOOSER(chooser));
                 const char *the_id = gtk_combo_box_get_active_id(GTK_COMBO_BOX(format_combo));
-		if (!g_strcmp0(the_id,"pdf")) {
-			pdfscreenshot_draw_to_pdf(GTK_WIDGET(window),filename);
-		} else if (!g_strcmp0(the_id,"svg")) {
-			pdfscreenshot_draw_to_svg(GTK_WIDGET(window),filename);
-		} else {
+
+		if (!g_strcmp0(the_id,"pdf"))
+                    pdfscreenshot_draw_to_vector(GTK_WIDGET(window),filename,
+                            cairo_pdf_surface_create);
+		else if (!g_strcmp0(the_id,"svg"))
+                    pdfscreenshot_draw_to_vector(GTK_WIDGET(window),filename,
+                            cairo_svg_surface_create);
+		else if (!g_strcmp0(the_id,"ps"))
+                    pdfscreenshot_draw_to_vector(GTK_WIDGET(window),filename,
+                            cairo_ps_surface_create);
+		else if (!g_strcmp0(the_id,"png"))
+                    pdfscreenshot_draw_to_png(GTK_WIDGET(window),filename);
+		else
                     printf("Unknown id \"%s\"\n", the_id);
-                }
+
                 g_free(filename);                        
             }
 
@@ -130,15 +162,29 @@ pdfscreenshot_take_shot (GtkButton *button, gpointer our_window) {
             return;
         }
     }
+
+    GtkWidget *dialog = gtk_message_dialog_new (our_window,
+         GTK_DIALOG_DESTROY_WITH_PARENT,
+         GTK_MESSAGE_ERROR,
+         GTK_BUTTONS_CLOSE,
+         "No main window found.");
+    gtk_dialog_run (GTK_DIALOG (dialog));
+    gtk_widget_destroy (dialog);
 }
 
 void
 pdfscreenshot_window_create()
 {
-    GtkWidget *button = gtk_button_new_with_label("Take screenshot...");
+
+    GtkWidget *icon = gtk_image_new_from_icon_name ("camera",GTK_ICON_SIZE_BUTTON);
+    gtk_image_set_pixel_size(GTK_IMAGE(icon), 128);
+
+    GtkWidget *button = gtk_button_new_with_label("Take vector screenshot...");
+    gtk_button_set_image (GTK_BUTTON(button), icon);
+    gtk_button_set_image_position (GTK_BUTTON(button), GTK_POS_TOP);
 
     GtkWidget *window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title(GTK_WINDOW(window),"PDF Screenshot taker");
+    gtk_window_set_title(GTK_WINDOW(window),"Vector screenshot taker");
     gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
     gtk_window_set_keep_above(GTK_WINDOW(window),TRUE);
     gtk_container_add(GTK_CONTAINER(window), button);
