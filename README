@@ -1,0 +1,32 @@
+gtk vector screenshot module
+============================
+
+© 2011 Joachim Breitner <mail@joachim-breitner.de>
+
+This gtk module allows you to take a screenshot of a running gtk-3 application
+as a vector image, with fully scaleable graphics and selectable text. It
+supports rendering the application to PDF, SVG and PostScript.
+
+Usage
+=====
+
+You have to load the gtk-vector-screenshot module when starting the
+application:
+
+GTK_MODULES=gtk-vector-screenshot appname
+
+Besides the application window, another window with one button will appear. If
+you click on that button, you can select the filename to save the image under.
+
+
+You can watch a screencast of the program in action at
+http://www.joachim-breitner.de/blog/archives/494-Better-PDF-screenshots-with-gtk-3.html
+
+
+BUGS and TODOs
+==============
+ * It only works with gtk3 applications.
+ * The screenshot is taken the moment you press Save in the file chooser
+   dialogue, not when you press the “Take vector screenshot” button.
+ * The screenshot is taken of the first top level window found. If there are
+   more of them, there is no way to select any.
