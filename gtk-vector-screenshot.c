@@ -30,6 +30,9 @@
 #include <cairo-svg.h>
 #include <cairo-ps.h>
 
+gchar *filename;
+gchar *type;
+
 /*
  * This function handles the file type combo box callback in the Save As
  * dialogue. I would have expected that such functionality is already provided
@@ -140,9 +143,12 @@ pdfscreenshot_take_shot (GtkButton *button, gpointer our_window) {
                 NULL);
 
             // Suggested file name derived from the application name.
-            char *filename = g_strdup_printf("%s.pdf", g_get_application_name());
-            gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (chooser), filename);
-            g_free(filename);
+            if (filename == NULL) {
+                char *filename = g_strdup_printf("%s.pdf", g_get_application_name());
+                gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (chooser), filename);
+                g_free(filename);
+            } else 
+                gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (chooser), filename);
 
             // Some generally useful setup for a Save As dialogue
             gtk_window_set_transient_for (GTK_WINDOW(chooser), GTK_WINDOW(our_window));
@@ -163,7 +169,7 @@ pdfscreenshot_take_shot (GtkButton *button, gpointer our_window) {
 	    g_signal_connect(GTK_COMBO_BOX(format_combo),"changed",
 	    	G_CALLBACK(pdfscreenshot_type_selected), chooser);
             // Default to PDF
-            gtk_combo_box_set_active(GTK_COMBO_BOX(format_combo),0);
+            gtk_combo_box_set_active_id(GTK_COMBO_BOX(format_combo),type);
 
             // The framed drawing area is used for a preview of the window, as a gimmick.
             GtkWidget *drawing_area = gtk_drawing_area_new ();
@@ -184,26 +190,25 @@ pdfscreenshot_take_shot (GtkButton *button, gpointer our_window) {
             // Run the dialogue and act if OK was pressed
             if (gtk_dialog_run (GTK_DIALOG(chooser)) == GTK_RESPONSE_ACCEPT) {
                 // Read the filename and selected file type
-                char *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (chooser));
-                const char *the_id = gtk_combo_box_get_active_id(GTK_COMBO_BOX(format_combo));
+                g_free(filename);
+                filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (chooser));
+                type = gtk_combo_box_get_active_id(GTK_COMBO_BOX(format_combo));
 
                 // And save according to the selected file type.
-		if (!g_strcmp0(the_id,"pdf"))
+		if (!g_strcmp0(type,"pdf"))
                     pdfscreenshot_draw_to_vector(GTK_WIDGET(window),filename,
                             cairo_pdf_surface_create);
-		else if (!g_strcmp0(the_id,"svg"))
+		else if (!g_strcmp0(type,"svg"))
                     pdfscreenshot_draw_to_vector(GTK_WIDGET(window),filename,
                             cairo_svg_surface_create);
-		else if (!g_strcmp0(the_id,"ps"))
+		else if (!g_strcmp0(type,"ps"))
                     pdfscreenshot_draw_to_vector(GTK_WIDGET(window),filename,
                             cairo_ps_surface_create);
-		else if (!g_strcmp0(the_id,"png"))
+		else if (!g_strcmp0(type,"png"))
                     pdfscreenshot_draw_to_png(GTK_WIDGET(window),filename);
 		else
                     // Should not happen.
-                    printf("Unknown id \"%s\"\n", the_id);
-
-                g_free(filename);                        
+                    printf("Unknown id \"%s\"\n", type);
             }
 
             gtk_widget_destroy (chooser);
@@ -257,6 +262,8 @@ pdfscreenshot_window_create()
 int
 gtk_module_init(gint argc, char *argv[])
 {
+    filename = NULL;
+    type = "pdf";
     pdfscreenshot_window_create();
     return FALSE;
 }
