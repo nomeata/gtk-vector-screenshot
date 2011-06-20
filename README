@@ -25,6 +25,11 @@ http://www.joachim-breitner.de/blog/archives/494-Better-PDF-screenshots-with-gtk
 Development
 ===========
 
+The latest release can be found on 
+http://www.joachim-breitner.de/archive/gtk-vector-screenshot/
+
+For the list of changes, see ChangeLog.
+
 The code is hosted on gitorious.org:
 https://gitorious.org/gtk-vector-screenshot/gtk-vector-screenshot
 
