@@ -7,13 +7,25 @@ This gtk module allows you to take a screenshot of a running gtk-3 application
 as a vector image, with fully scaleable graphics and selectable text. It
 supports rendering the application to PDF, SVG and PostScript.
 
+Installation
+===========
+
+To install the module, use the usual sequence:
+
+./configure --prefix=/usr
+make
+sudo make install
+
+If you do not install into /usr, you will have set GTK_PATH or pass the full
+path of gtk-vector-screencast.so via GTK_MODULES when invoking the application.
+
 Usage
 =====
 
 You have to load the gtk-vector-screenshot module when starting the
 application:
 
-GTK_MODULES=gtk-vector-screenshot appname
+GTK_MODULES=gtk-vector-screenshot.so appname
 
 Besides the application window, another window with one button will appear. If
 you click on that button, you can select the filename to save the image under.
