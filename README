@@ -22,6 +22,19 @@ you click on that button, you can select the filename to save the image under.
 You can watch a screencast of the program in action at
 http://www.joachim-breitner.de/blog/archives/494-Better-PDF-screenshots-with-gtk-3.html
 
+Development
+===========
+
+The code is hosted on gitorious.org:
+https://gitorious.org/gtk-vector-screenshot/gtk-vector-screenshot
+
+You can pull from the repository via
+git clone git://gitorious.org/gtk-vector-screenshot/gtk-vector-screenshot.git
+or if you are registered with gitorious, via
+git@gitorious.org:gtk-vector-screenshot/gtk-vector-screenshot.git
+
+Feel free to submit patches, but also feel free to contact me first with your
+ideas, in case I have different plans.
 
 BUGS and TODOs
 ==============
