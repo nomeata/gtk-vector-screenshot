@@ -4,7 +4,7 @@ gtk vector screenshot module
 © 2011 Joachim Breitner <mail@joachim-breitner.de>
 
 This gtk module allows you to take a screenshot of a running gtk-3 application
-as a vector image, with fully scaleable graphics and selectable text. It
+as a vector image, with fully scalable graphics and selectable text. It
 supports rendering the application to PDF, SVG and PostScript.
 
 Installation
