@@ -30,3 +30,4 @@ BUGS and TODOs
    dialogue, not when you press the “Take vector screenshot” button.
  * The screenshot is taken of the first top level window found. If there are
    more of them, there is no way to select any.
+ * The Save As dialogue should remember the filename
