@@ -81,8 +81,10 @@ void pdfscreenshot_draw_preview (GtkWidget *widget, cairo_t *cr, gpointer window
     int draw_height = gtk_widget_get_allocated_height (widget);
     int win_width = gtk_widget_get_allocated_width (window);
     int win_height = gtk_widget_get_allocated_height (window);
+    
+    gtk_widget_set_size_request (widget, win_width, win_height);
 
-    double scale = fmin(1, fmin (1.0*draw_width / win_width, 1.0*draw_height / win_height));
+    double scale = fmin(1, fmax (1.0*draw_width / win_width, 1.0*draw_height / win_height));
 
     cairo_scale(cr, scale, scale);
 
@@ -172,9 +174,12 @@ pdfscreenshot_take_shot (GtkWindow *window) {
     GtkWidget *drawing_area = gtk_drawing_area_new ();
     g_signal_connect (G_OBJECT (drawing_area), "draw",
             G_CALLBACK (pdfscreenshot_draw_preview), window);
-    gtk_widget_set_size_request (drawing_area, 300, 300);
 
-    GtkWidget *frame = gtk_frame_new("Preview");
+    int win_width = gtk_widget_get_allocated_width (window);
+    int win_height = gtk_widget_get_allocated_height (window);
+    gtk_widget_set_size_request (drawing_area, win_width, win_height);
+
+    GtkWidget *frame = gtk_aspect_frame_new("Preview",0.5,0,1,TRUE);
     gtk_container_add(GTK_CONTAINER(frame), drawing_area);
 
     // Shove both widgets in a vbox as the “extra” of the file chooser dialogue
