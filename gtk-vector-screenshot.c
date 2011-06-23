@@ -266,6 +266,7 @@ pdfscreenshot_window_create()
     gtk_button_set_image_position (GTK_BUTTON(button), GTK_POS_TOP);
 
     GtkWidget *window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    gtk_window_set_icon_name(GTK_WINDOW(window),"camera");
     gtk_window_set_title(GTK_WINDOW(window),"Vector screenshot taker");
     gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
     gtk_window_set_keep_above(GTK_WINDOW(window),TRUE);
