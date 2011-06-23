@@ -286,9 +286,14 @@ pdfscreenshot_event_filter (GdkXEvent *xevent, GdkEvent *event, gpointer data)
             gdk_x11_atom_to_xatom(pdfscreenshot_atom));
     } else if (ev->type == ClientMessage &&
             ev->xclient.message_type == gdk_x11_atom_to_xatom(pdfscreenshot_atom)) {
-        GtkWindow *gwin;
-        gdk_window_get_user_data(event->any.window, (gpointer *)  &gwin);
-        pdfscreenshot_take_shot(gwin);
+        if (ev->xclient.window != NULL) {
+            GtkWindow *gwin;
+            gdk_window_get_user_data(event->any.window, (gpointer *)  &gwin);
+            printf("Taking shot of 0x%lx\n", ev->xclient.window);
+            pdfscreenshot_take_shot(gwin);
+        } else {
+            g_warning("Got a GTK_VECTOR_SCREENSHOT XClientMessage, but window 0x%lx is not known to me.", ev->xclient.window);
+        }
     }
 
     return GDK_FILTER_CONTINUE;
