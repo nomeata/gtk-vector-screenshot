@@ -31,7 +31,7 @@
 #include <cairo-ps.h>
 
 gchar *filename;
-gchar *type;
+const gchar *type;
 
 /*
  * This function handles the file type combo box callback in the Save As
