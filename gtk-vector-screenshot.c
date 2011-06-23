@@ -25,6 +25,7 @@
 #include <libgen.h>
 
 #include <gtk/gtk.h>
+#include <gdk/gdkx.h>
 
 #include <cairo-pdf.h>
 #include <cairo-svg.h>
@@ -128,11 +129,11 @@ void pdfscreenshot_draw_to_png (GtkWidget *widget, const gchar* filename) {
  * file chooser and saves the screenshot.
  */
 void
-pdfscreenshot_take_shot (GtkWindow *our_window, GtkWindow *window) {
+pdfscreenshot_take_shot (GtkWindow *window) {
     // Set up the file chooser
     GtkWidget *chooser = gtk_file_chooser_dialog_new (
         "Save vector screenshot",
-        our_window,
+        window,
         GTK_FILE_CHOOSER_ACTION_SAVE,
         GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
         GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
@@ -147,8 +148,7 @@ pdfscreenshot_take_shot (GtkWindow *our_window, GtkWindow *window) {
         gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (chooser), filename);
 
     // Some generally useful setup for a Save As dialogue
-    if (our_window)
-        gtk_window_set_transient_for (GTK_WINDOW(chooser), GTK_WINDOW(our_window));
+    gtk_window_set_transient_for (GTK_WINDOW(chooser), GTK_WINDOW(window));
     gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (chooser), TRUE);
 
     // The combo box that selects the desired file type. We (ab)use the
@@ -226,7 +226,7 @@ pdfscreenshot_find_window (GtkButton *button, gpointer our_window) {
             // This seems to be the "other" window that we want to shoot, so
             // grab hold of it
             g_object_ref(window);
-            pdfscreenshot_take_shot(our_window, window);
+            pdfscreenshot_take_shot(window);
             g_object_unref(window);
             g_list_free(toplevels);
             return;
@@ -275,7 +275,6 @@ GdkFilterReturn
 pdfscreenshot_event_filter (GdkXEvent *xevent, GdkEvent *event, gpointer data)
 {
     XEvent *ev = (XEvent *) xevent;
-    Atom gvs_atom = XInternAtom(ev->xmap.display, "GTK_VECTOR_SCREENSHOT", 0);
 
     if (ev->type == MapNotify) {
         XTextProperty supported;
@@ -287,7 +286,9 @@ pdfscreenshot_event_filter (GdkXEvent *xevent, GdkEvent *event, gpointer data)
             gdk_x11_atom_to_xatom(pdfscreenshot_atom));
     } else if (ev->type == ClientMessage &&
             ev->xclient.message_type == gdk_x11_atom_to_xatom(pdfscreenshot_atom)) {
-        pdfscreenshot_take_shot(NULL,event->any.window);
+        GtkWindow *gwin;
+        gdk_window_get_user_data(event->any.window, (gpointer *)  &gwin);
+        pdfscreenshot_take_shot(gwin);
     }
 
     return GDK_FILTER_CONTINUE;
@@ -305,7 +306,7 @@ gtk_module_init(gint argc, char *argv[])
 
     pdfscreenshot_atom = gdk_atom_intern ("GTK_VECTOR_SCREENSHOT", FALSE);
 
-    pdfscreenshot_window_create();
+    // pdfscreenshot_window_create();
 
     gdk_window_add_filter (NULL, pdfscreenshot_event_filter, NULL);
 
