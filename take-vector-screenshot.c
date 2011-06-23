@@ -37,6 +37,7 @@ pdfscreenshot_window_selected(GtkWidget *grab_window,
                   gpointer *userdata)
 {
     gdk_pointer_ungrab(event->time);
+    gtk_button_released(GTK_BUTTON(button));
 
     int dummy;
     unsigned int dummyU;
@@ -46,16 +47,37 @@ pdfscreenshot_window_selected(GtkWidget *grab_window,
         gdk_x11_get_default_root_xwindow(),
         &dummyW, &selected_window, &dummy, &dummy, &dummy, &dummy, &dummyU);
 
-    XClientMessageEvent xevent;
-    xevent.type = ClientMessage;
-    xevent.message_type = gdk_x11_atom_to_xatom(pdfscreenshot_atom);
-    xevent.format = 32;
-    xevent.window  = selected_window;
-    XSendEvent(gdk_x11_get_default_xdisplay(), selected_window, 0, 0, (XEvent *)&xevent);
 
-    gtk_button_released(GTK_BUTTON(button));
+    if (selected_window != None) {
+        XTextProperty supported;
+        XGetTextProperty(gdk_x11_get_default_xdisplay(),
+            selected_window, 
+            &supported,
+            gdk_x11_atom_to_xatom(pdfscreenshot_atom));
+        if (supported.value != NULL) {
+            XClientMessageEvent xevent;
+            xevent.type = ClientMessage;
+            xevent.message_type = gdk_x11_atom_to_xatom(pdfscreenshot_atom);
+            xevent.format = 32;
+            xevent.window  = selected_window;
+            XSendEvent(gdk_x11_get_default_xdisplay(), selected_window, 0, 0, (XEvent *)&xevent);
+            return TRUE;
+        }
+    }
 
-    return FALSE;
+    // If we reach here, then the window does not support taking vector screenshots.
+    GtkWidget *dialog = gtk_message_dialog_new (NULL,
+         GTK_DIALOG_DESTROY_WITH_PARENT,
+         GTK_MESSAGE_ERROR,
+         GTK_BUTTONS_CLOSE,
+         "The selected window does not support taking vector screenshots. Is it "
+         "an gtk-3 based application, and did you load the gtk-vector-screenshot "
+         "module?");
+    gtk_dialog_run (GTK_DIALOG (dialog));
+    gtk_widget_destroy (dialog);
+
+
+    return TRUE;
 }
 
 

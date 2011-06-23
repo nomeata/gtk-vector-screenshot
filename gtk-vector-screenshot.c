@@ -211,6 +211,12 @@ pdfscreenshot_take_shot (GtkWindow *window) {
     gtk_widget_destroy (chooser);
 }
 
+gboolean
+pdfscreenshot_take_shot_soon (gpointer window) {
+    pdfscreenshot_take_shot(GTK_WINDOW(window));
+    return FALSE;
+}
+
 /*
  * Called when the main button is pressed. Finds the main window, and calls
  * pdfscreenshot_take_shot.
@@ -286,11 +292,11 @@ pdfscreenshot_event_filter (GdkXEvent *xevent, GdkEvent *event, gpointer data)
             gdk_x11_atom_to_xatom(pdfscreenshot_atom));
     } else if (ev->type == ClientMessage &&
             ev->xclient.message_type == gdk_x11_atom_to_xatom(pdfscreenshot_atom)) {
-        if (ev->xclient.window != NULL) {
+        if (event->any.window != NULL) {
             GtkWindow *gwin;
             gdk_window_get_user_data(event->any.window, (gpointer *)  &gwin);
-            printf("Taking shot of 0x%lx\n", ev->xclient.window);
-            pdfscreenshot_take_shot(gwin);
+            printf("Taking shot of XWindow 0x%lx, GtkWindow %p\n", ev->xclient.window, gwin);
+            g_idle_add(pdfscreenshot_take_shot_soon, gwin);
         } else {
             g_warning("Got a GTK_VECTOR_SCREENSHOT XClientMessage, but window 0x%lx is not known to me.", ev->xclient.window);
         }
