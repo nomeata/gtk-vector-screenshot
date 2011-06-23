@@ -26,19 +26,15 @@
 GdkAtom pdfscreenshot_atom;
 char *supported_str = "supported";
 
-GtkWidget *grab_window;
-GtkWidget *button;
-
-Window selected_window = None;
-
 gboolean
 pdfscreenshot_window_selected(GtkWidget *grab_window,
                   GdkEventButton *event,
-                  gpointer *userdata)
+                  GtkButton *button)
 {
     gdk_pointer_ungrab(event->time);
     gtk_button_released(GTK_BUTTON(button));
 
+    Window selected_window = None;
     int dummy;
     unsigned int dummyU;
     Window dummyW;
@@ -82,7 +78,7 @@ pdfscreenshot_window_selected(GtkWidget *grab_window,
 
 
 gboolean
-pdfscreenshot_select_window(GtkWidget *button, GdkEvent *event, gpointer userdata)
+pdfscreenshot_select_window(GtkWidget *button, GdkEvent *event, GtkWidget *grab_window)
 {
     GdkCursor *cursor;
 
@@ -115,7 +111,7 @@ pdfscreenshot_window_create()
     GtkWidget *icon = gtk_image_new_from_icon_name ("camera",GTK_ICON_SIZE_BUTTON);
     gtk_image_set_pixel_size(GTK_IMAGE(icon), 128);
 
-    button = gtk_button_new_with_label("Take vector screenshot...");
+    GtkWidget *button = gtk_button_new_with_label("Take vector screenshot...");
     gtk_button_set_image (GTK_BUTTON(button), icon);
     gtk_button_set_image_position (GTK_BUTTON(button), GTK_POS_TOP);
 
@@ -126,24 +122,23 @@ pdfscreenshot_window_create()
     gtk_window_set_keep_above(GTK_WINDOW(window),TRUE);
     gtk_container_add(GTK_CONTAINER(window), button);
 
-    g_signal_connect(G_OBJECT(button), "button_release_event",
-        G_CALLBACK(pdfscreenshot_select_window), NULL);
-
     gtk_widget_show_all(GTK_WIDGET(window));
-}
 
-void
-pdfscreenshot_grab_window_create()
-{
+    // Create a dummy window for the pointer grab
+    // (maybe try to remove this later)
     GdkEventMask events = GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK;
 
-    grab_window = gtk_window_new(GTK_WINDOW_POPUP);
+    GtkWidget *grab_window = gtk_window_new(GTK_WINDOW_POPUP);
     gtk_widget_show(grab_window);
     gtk_window_resize(GTK_WINDOW(grab_window), 1, 1);
     gtk_window_move(GTK_WINDOW(grab_window), -100, -100);
     gtk_widget_add_events(grab_window, events);
+
     g_signal_connect(G_OBJECT(grab_window), "button_release_event",
-        G_CALLBACK(pdfscreenshot_window_selected), NULL);
+        G_CALLBACK(pdfscreenshot_window_selected), button);
+    g_signal_connect(G_OBJECT(button), "button_release_event",
+        G_CALLBACK(pdfscreenshot_select_window), grab_window);
+
 }
 
 int
@@ -153,7 +148,6 @@ main(gint argc, char *argv[])
 
     pdfscreenshot_atom = gdk_atom_intern ("GTK_VECTOR_SCREENSHOT", FALSE);
     pdfscreenshot_window_create();
-    pdfscreenshot_grab_window_create();
 
     gtk_main();
 
