@@ -296,7 +296,7 @@ pdfscreenshot_event_filter (GdkXEvent *xevent, GdkEvent *event, gpointer data)
         if (event->any.window != NULL) {
             GtkWindow *gwin;
             gdk_window_get_user_data(event->any.window, (gpointer *)  &gwin);
-            printf("Taking shot of XWindow 0x%lx, GtkWindow %p\n", ev->xclient.window, gwin);
+            //printf("Taking shot of XWindow 0x%lx, GtkWindow %p\n", ev->xclient.window, gwin);
             g_idle_add(pdfscreenshot_take_shot_soon, gwin);
         } else {
             g_warning("Got a GTK_VECTOR_SCREENSHOT XClientMessage, but window 0x%lx is not known to me.", ev->xclient.window);
