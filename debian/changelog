@@ -1,5 +1,5 @@
-gtk-vector-screenshot (0.2-1) UNRELEASED; urgency=low
+gtk-vector-screenshot (0.2-1) unstable; urgency=low
 
   * Initial release. (Closes: #631324)
 
- -- Joachim Breitner <nomeata@debian.org>  Fri, 24 Jun 2011 14:52:54 +0200
+ -- Joachim Breitner <nomeata@debian.org>  Fri, 24 Jun 2011 16:06:13 +0200
