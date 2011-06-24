@@ -79,7 +79,7 @@ pdfscreenshot_window_selected(GtkWidget *grab_window,
          GTK_MESSAGE_ERROR,
          GTK_BUTTONS_CLOSE,
          "The selected window does not support taking vector screenshots. Is it "
-         "an gtk-3 based application, and did you load the gtk-vector-screenshot "
+         "a gtk-3 based application, and did you load the gtk-vector-screenshot "
          "module?");
     gtk_dialog_run (GTK_DIALOG (dialog));
     gtk_widget_destroy (dialog);
