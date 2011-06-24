@@ -175,8 +175,8 @@ pdfscreenshot_take_shot (GtkWindow *window) {
     g_signal_connect (G_OBJECT (drawing_area), "draw",
             G_CALLBACK (pdfscreenshot_draw_preview), window);
 
-    int win_width = gtk_widget_get_allocated_width (window);
-    int win_height = gtk_widget_get_allocated_height (window);
+    int win_width = gtk_widget_get_allocated_width (GTK_WIDGET(window));
+    int win_height = gtk_widget_get_allocated_height (GTK_WIDGET(window));
     gtk_widget_set_size_request (drawing_area, win_width, win_height);
 
     GtkWidget *frame = gtk_aspect_frame_new("Preview",0.5,0,1,TRUE);
