@@ -4,7 +4,7 @@ include /usr/share/cdbs/1/rules/debhelper.mk
 include /usr/share/cdbs/1/class/autotools.mk
 
 common-install-arch::
-	find $(DEB_DESTDIR) \( -name "*.la" -o -name "*.a" \) -delete
+	find $(DEB_DESTDIR) -name "*.la" -delete
 
 DEB_DH_MAKESHLIBS_ARGS_ALL += --exclude=usr/lib/gtk-2.0/modules
 DEB_DH_MAKESHLIBS_ARGS_ALL += --exclude=usr/lib/gtk-3.0/modules

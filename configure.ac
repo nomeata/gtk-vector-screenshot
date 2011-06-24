@@ -11,6 +11,11 @@ PACKAGE=gtk-vector-screenshot
 
 AM_INIT_AUTOMAKE([foreign])
 
+#### libtool stuff ####
+LT_PREREQ(2.2)
+LT_INIT([disable-static])
+
+
 
 dnl ################################################################
 dnl # Specify a header configuration file
