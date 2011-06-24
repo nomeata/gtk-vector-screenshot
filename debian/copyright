@@ -1,0 +1,21 @@
+This package was debianized by Joachim Breitner <nomeata@debian.org> on
+Fri, 24 Jun 2011 15:14:52 +0200
+
+It was downloaded from http://www.joachim-breitner.de/projects#gtk-vector-screenshot
+
+Copyright: © 2011 Joachim Breitner <mail@joachim-breitner.de>
+
+License:
+
+  This library is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Lesser General Public
+  License as published by the Free Software Foundation; either
+  version 2.1 of the License, or (at your option) any later version.
+
+  This library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  Lesser General Public License for more details.
+
+The LGPL is available in /usr/share/common-licenses/LGPL-2.1 on Debian
+systems.

@@ -1,0 +1,20 @@
+Source: gtk-vector-screenshot
+Maintainer: Joachim Breitner <nomeata@debian.org>
+Standards-Version: 3.9.2
+Section: gnome
+Priority: optional
+Build-Depends:
+ cdbs,
+ debhelper (>= 7)
+Homepage: http://www.joachim-breitner.de/projects#gtk-vector-screenshot
+VCS-Git: git://git.nomeata.de/gtk-vector-screenshot.git
+VCS-Browser: http://git.nomeata.de/?p=gtk-vector-screenshot.git
+
+Package: gtk-vector-screenshot
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: takes screenshots of applications as PDF or SVG files
+ This gtk module allows you to take a screenshot of a running gtk-3 application
+ as a vector image, with fully scalable graphics and selectable text. It
+ supports rendering the application to PDF, SVG and PostScript.
+
