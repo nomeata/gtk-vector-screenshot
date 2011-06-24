@@ -5,6 +5,7 @@ libgtk_vector_screenshot_la_SOURCES = gtk-vector-screenshot.c
 libgtk_vector_screenshot_la_LDFLAGS = \
 	-rpath $(moduledir) -module -avoid-version -export-dynamic\
 	$(GTK_LIBS) \
+	$(X_LIBS) \
 	@LDFLAGS@
 
 libgtk_vector_screenshot_la_LIBADD =
@@ -20,7 +21,8 @@ take_vector_screenshot_LDFLAGS = \
 bin_PROGRAMS = take-vector-screenshot
 
 INCLUDES = \
-	$(GTK_CFLAGS)
+	$(GTK_CFLAGS) \
+	$(X_CFLAGS)
 
 take_screenshotdir  = $(datadir)/applications
 dist_take_screenshot_DATA = take-vector-screenshot.desktop
