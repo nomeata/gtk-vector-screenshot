@@ -17,7 +17,8 @@ make
 sudo make install
 
 And then ensure that the environment variable GTK_MODULES includes
-gtk-vector-screenshot, e.g. in ~/.xsessionrc.
+gtk-vector-screenshot, e.g. in ~/.xsessionrc or by putting the file
+52load-gtk-vector-screenshot-gtk-module into /etc/X11/Xsession.d.
 
 If you do not install into /usr, you will have set GTK_PATH or pass the full
 path of gtk-vector-screencast.so via GTK_MODULES when invoking the application.

@@ -1,0 +1,10 @@
+[Desktop Entry]
+_Name=Take Vector Screenshot
+_Comment=Save vector images of application windows
+Exec=take-vector-screenshot
+Terminal=false
+Type=Application
+Icon=camera
+# StartupNotify=true
+Categories=GTK;GNOME;Utility;
+NotShowIn=KDE;
