@@ -3,7 +3,7 @@ moduledir = $(libdir)/gtk-3.0/modules
 libgtk_vector_screenshot_la_SOURCES = gtk-vector-screenshot.c
 
 libgtk_vector_screenshot_la_LDFLAGS = \
-	-rpath $(moduledir) -module -avoid-version \
+	-rpath $(moduledir) -module -avoid-version -export-dynamic\
 	$(GTK_LIBS) \
 	@LDFLAGS@
 

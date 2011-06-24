@@ -8,7 +8,7 @@ as a vector image, with fully scalable graphics and selectable text. It
 supports rendering the application to PDF, SVG and PostScript.
 
 Installation
-===========
+============
 
 To install the module, use the usual sequence:
 
@@ -16,20 +16,21 @@ To install the module, use the usual sequence:
 make
 sudo make install
 
+And then ensure that the environment variable GTK_MODULES includes
+gtk-vector-screenshot, e.g. in ~/.xsessionrc.
+
 If you do not install into /usr, you will have set GTK_PATH or pass the full
 path of gtk-vector-screencast.so via GTK_MODULES when invoking the application.
 
 Usage
 =====
 
-You have to load the gtk-vector-screenshot module when starting the
-application:
+You need to ensure that the gtk-vector-screenshot module is loaded by the
+application, see section Installation. Distribution packages should take care
+of this, but you might need to login again after you install the package.
 
-GTK_MODULES=gtk-vector-screenshot.so appname
-
-Besides the application window, another window with one button will appear. If
-you click on that button, you can select the filename to save the image under.
-
+Then run take-vector-screenshot, press the button, click on the window and then
+you can select the filename to save the image under.
 
 You can watch a screencast of the program in action at
 http://www.joachim-breitner.de/blog/archives/494-Better-PDF-screenshots-with-gtk-3.html
@@ -58,5 +59,3 @@ BUGS and TODOs
  * It only works with gtk3 applications.
  * The screenshot is taken the moment you press Save in the file chooser
    dialogue, not when you press the “Take vector screenshot” button.
- * The screenshot is taken of the first top level window found. If there are
-   more of them, there is no way to select any.
