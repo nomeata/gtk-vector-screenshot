@@ -31,9 +31,13 @@ AC_C_CONST
 AC_TYPE_SIZE_T
 AC_EXEEXT
 
-PKG_CHECK_MODULES(GTK, [gtk+-3.0 >= 2.90])
+PKG_CHECK_MODULES(GTK3, [gtk+-3.0 >= 2.90])
 AC_SUBST(GTK_CFLAGS)
 AC_SUBST(GTK_LIBS)
+
+PKG_CHECK_MODULES(GTK2, [gtk+-2.0])
+AC_SUBST(GTK3_CFLAGS)
+AC_SUBST(GTK3_LIBS)
 
 PKG_CHECK_MODULES(X, [x11])
 AC_SUBST(X_CFLAGS)
@@ -53,6 +57,7 @@ dnl # Output the Makefiles
 dnl ################################################################
 AC_CONFIG_FILES([
 Makefile
+dummy-module/Makefile
 ])
 
 AC_OUTPUT
