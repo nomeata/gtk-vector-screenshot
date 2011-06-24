@@ -60,3 +60,4 @@ BUGS and TODOs
  * It only works with gtk3 applications.
  * The screenshot is taken the moment you press Save in the file chooser
    dialogue, not when you press the “Take vector screenshot” button.
+ * Make the preview widget behave more sensible with regard to resizes.
