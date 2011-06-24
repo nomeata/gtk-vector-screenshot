@@ -26,6 +26,8 @@
 GdkAtom pdfscreenshot_atom;
 char *supported_str = "supported";
 
+GtkWindow *main_window;
+
 /*
  * This is called once a window has been clicked.
  */
@@ -72,7 +74,7 @@ pdfscreenshot_window_selected(GtkWidget *grab_window,
     }
 
     // If we reach here, then the window does not support taking vector screenshots.
-    GtkWidget *dialog = gtk_message_dialog_new (NULL,
+    GtkWidget *dialog = gtk_message_dialog_new (main_window,
          GTK_DIALOG_DESTROY_WITH_PARENT,
          GTK_MESSAGE_ERROR,
          GTK_BUTTONS_CLOSE,
@@ -134,8 +136,8 @@ pdfscreenshot_window_create()
     gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
     gtk_window_set_keep_above(GTK_WINDOW(window),TRUE);
     gtk_container_add(GTK_CONTAINER(window), button);
-
     gtk_widget_show_all(GTK_WIDGET(window));
+    main_window = window;
 
     // Create a dummy window for the pointer grab
     // (maybe try to remove this later)
