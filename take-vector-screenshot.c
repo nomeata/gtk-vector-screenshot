@@ -129,6 +129,9 @@ pdfscreenshot_window_create()
     GtkWidget *button = gtk_button_new_with_label("Take vector screenshot...");
     gtk_button_set_image (GTK_BUTTON(button), icon);
     gtk_button_set_image_position (GTK_BUTTON(button), GTK_POS_TOP);
+    gtk_widget_set_tooltip_text (button,
+        "Click this button and then an application window to take "
+        "a vector screenshot of it.");
 
     GtkWidget *window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_icon_name(GTK_WINDOW(window),"camera");
