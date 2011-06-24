@@ -26,31 +26,41 @@
 GdkAtom pdfscreenshot_atom;
 char *supported_str = "supported";
 
+/*
+ * This is called once a window has been clicked.
+ */
 gboolean
 pdfscreenshot_window_selected(GtkWidget *grab_window,
                   GdkEventButton *event,
                   GtkButton *button)
 {
+    // Release the pointer
     gdk_pointer_ungrab(event->time);
+    // Un-Press the button (we inhibited the button-release signal in
+    // pdfscreenshot_select_window
     gtk_button_released(GTK_BUTTON(button));
 
+    // Use Xlib to find out what window is below the button
     Window selected_window = None;
     int dummy;
     unsigned int dummyU;
     Window dummyW;
-
     XQueryPointer(gdk_x11_get_default_xdisplay(),
         gdk_x11_get_default_root_xwindow(),
         &dummyW, &selected_window, &dummy, &dummy, &dummy, &dummy, &dummyU);
 
 
     if (selected_window != None) {
+        // Now we check if the window has the GTK_VECTOR_SCREENSHOT atom set
         XTextProperty supported;
         XGetTextProperty(gdk_x11_get_default_xdisplay(),
             selected_window, 
             &supported,
             gdk_x11_atom_to_xatom(pdfscreenshot_atom));
         if (supported.value != NULL) {
+            // Send the GTK_VECTOR_SCREENSHOT ClientMessage to the window. It
+            // is important to set xevent.window, as X does not do it by
+            // itself.
             XClientMessageEvent xevent;
             xevent.type = ClientMessage;
             xevent.message_type = gdk_x11_atom_to_xatom(pdfscreenshot_atom);
@@ -72,20 +82,23 @@ pdfscreenshot_window_selected(GtkWidget *grab_window,
     gtk_dialog_run (GTK_DIALOG (dialog));
     gtk_widget_destroy (dialog);
 
-
     return TRUE;
 }
 
 
+/*
+ * Called when the main button is pressed.
+ */
 gboolean
 pdfscreenshot_select_window(GtkWidget *button, GdkEvent *event, GtkWidget *grab_window)
 {
-    GdkCursor *cursor;
-
     GdkEventMask events = GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK;
 
-    cursor = gdk_cursor_new_for_display(gtk_widget_get_display(button),
-                                        GDK_CROSSHAIR);
+    // Create a crosshair cursor
+    GdkCursor *cursor = gdk_cursor_new_for_display(
+        gtk_widget_get_display(button), GDK_CROSSHAIR);
+    // And grab the input device, so that all further events are passed to the
+    // grab_window
     gdk_device_grab(
         gdk_event_get_device(event),
         gtk_widget_get_window(grab_window),
