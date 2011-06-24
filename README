@@ -36,6 +36,17 @@ you can select the filename to save the image under.
 You can watch a screencast of the program in action at
 http://www.joachim-breitner.de/blog/archives/494-Better-PDF-screenshots-with-gtk-3.html
 
+Protocol
+========
+
+The module is loaded by every application, and only activated using the
+take-vector-screenshot program. The protocol is simple and based on X window
+properties and X client messages: The gtk module sets the GTK_VECTOR_SCREENSHOT
+property for each top-level X window to some arbitrary value (currently
+"supported"). The control application sends an XClientMessage event to that
+window of type GTK_VECTOR_SCREENSHOT and with event.window set to the receiving
+window.
+
 Development
 ===========
 
@@ -61,3 +72,5 @@ BUGS and TODOs
  * The screenshot is taken the moment you press Save in the file chooser
    dialogue, not when you press the “Take vector screenshot” button.
  * Make the preview widget behave more sensible with regard to resizes.
+ * Less hakish setting of the GTK_VECTOR_SCREENSHOT property.
+ * Fallback code without IPC for windows, as for version 0.2.
