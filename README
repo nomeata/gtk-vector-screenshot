@@ -74,3 +74,5 @@ BUGS and TODOs
  * Make the preview widget behave more sensible with regard to resizes.
  * Less hakish setting of the GTK_VECTOR_SCREENSHOT property.
  * Fallback code without IPC for windows, as for version 0.2.
+ * Use GtkInvisible for the grab in take-vector-screenshot.c, as that is what
+   its meant for, it seems.
