@@ -1,8 +1,8 @@
-gtk-vector-screenshot (0.2-2) UNRELEASED; urgency=low
+gtk-vector-screenshot (0.2-2) unstable; urgency=low
 
   * Duh, completely forgot about the Build-Depends (Closes: #632120)
 
- -- Joachim Breitner <nomeata@debian.org>  Thu, 30 Jun 2011 10:07:52 +0200
+ -- Joachim Breitner <nomeata@debian.org>  Thu, 30 Jun 2011 10:27:31 +0200
 
 gtk-vector-screenshot (0.2-1) unstable; urgency=low
 
