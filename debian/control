@@ -5,7 +5,10 @@ Section: gnome
 Priority: optional
 Build-Depends:
  cdbs,
- debhelper (>= 7)
+ debhelper (>= 7),
+ pkg-config,
+ libgtk-3-dev,
+ libgtk2.0-dev,
 Homepage: http://www.joachim-breitner.de/projects#gtk-vector-screenshot
 VCS-Git: git://git.nomeata.de/gtk-vector-screenshot.git
 VCS-Browser: http://git.nomeata.de/?p=gtk-vector-screenshot.git
