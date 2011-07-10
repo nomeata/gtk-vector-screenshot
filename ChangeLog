@@ -1,3 +1,10 @@
+gtk-vector-screenshot (0.2)
+
+  * Now with separate control application take-vector-screenshot and
+    unobstrusive module that can be loaded permanently.
+
+ -- Joachim Breitner <mail@joachim-breitner.de>  Fri, 24 Jun 2011 16:06:13 +0200
+
 gtk-vector-screenshot (0.1)
 
   * Initial release.
