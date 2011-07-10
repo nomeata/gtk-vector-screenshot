@@ -23,6 +23,8 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 
+#include <clientwin.h>
+
 GdkAtom pdfscreenshot_atom;
 char *supported_str = "supported";
 
@@ -51,6 +53,10 @@ pdfscreenshot_window_selected(GtkWidget *grab_window,
         gdk_x11_get_default_root_xwindow(),
         &dummyW, &selected_window, &dummy, &dummy, &dummy, &dummy, &dummyU);
 
+	// Find the "right" window the same way xwininfo does
+    selected_window = Find_Client(gdk_x11_get_default_xdisplay(),
+        gdk_x11_get_default_root_xwindow(),
+        selected_window);
 
     if (selected_window != None) {
         // Now we check if the window has the GTK_VECTOR_SCREENSHOT atom set

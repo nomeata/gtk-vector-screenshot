@@ -12,7 +12,7 @@ libgtk_vector_screenshot_la_LIBADD =
 
 module_LTLIBRARIES = libgtk-vector-screenshot.la
 
-take_vector_screenshot_SOURCES = take-vector-screenshot.c
+take_vector_screenshot_SOURCES = take-vector-screenshot.c clientwin.c clientwin.h
 
 take_vector_screenshot_LDFLAGS = \
 	$(GTK3_LIBS) \
