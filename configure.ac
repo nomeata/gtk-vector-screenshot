@@ -1,4 +1,4 @@
-AC_INIT(gtk-vector-screenshot, 0.2, mail@joachim-breitner.de)
+AC_INIT(gtk-vector-screenshot, 0.3, mail@joachim-breitner.de)
 AC_PREREQ(2.50)
 AC_COPYRIGHT([Copyright 2011 Joachim Breitner])
 

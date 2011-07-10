@@ -1,3 +1,13 @@
+gtk-vector-screenshot (0.3)
+
+  * Uses code from xwininfo to reliably find the right X window, even with
+    window managers such as metacity.
+  * Smaller Save-As dialogue even with large application windows.
+    Help getting this dialogue right with regard to sizing and resizing would
+    be appreciated!
+
+ -- Joachim Breitner <mail@joachim-breitner.de>  Sun, 10 Jul 2011 12:18:18 +0200
+
 gtk-vector-screenshot (0.2)
 
   * Now with separate control application take-vector-screenshot and
