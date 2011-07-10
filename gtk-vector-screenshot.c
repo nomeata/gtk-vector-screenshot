@@ -34,6 +34,13 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 
+#ifndef MAX
+#define MAX(a,b) (((a)>(b))?(a):(b))
+#endif /* MAX */
+#ifndef MIN
+#define MIN(a,b) (((a)<(b))?(a):(b))
+#endif /* MIN */
+
 gchar *filename;
 const gchar *type;
 
@@ -82,7 +89,7 @@ void pdfscreenshot_draw_preview (GtkWidget *widget, cairo_t *cr, gpointer window
     int win_width = gtk_widget_get_allocated_width (window);
     int win_height = gtk_widget_get_allocated_height (window);
     
-    gtk_widget_set_size_request (widget, win_width, win_height);
+    gtk_widget_set_size_request (widget, MIN(win_width,500), MIN(win_height,300));
 
     double scale = fmin(1, fmax (1.0*draw_width / win_width, 1.0*draw_height / win_height));
 
@@ -177,7 +184,7 @@ pdfscreenshot_take_shot (GtkWindow *window) {
 
     int win_width = gtk_widget_get_allocated_width (GTK_WIDGET(window));
     int win_height = gtk_widget_get_allocated_height (GTK_WIDGET(window));
-    gtk_widget_set_size_request (drawing_area, win_width, win_height);
+    gtk_widget_set_size_request (drawing_area, MIN(win_width,500), MIN(win_height,300));
 
     GtkWidget *frame = gtk_aspect_frame_new("Preview",0.5,0,1,TRUE);
     gtk_container_add(GTK_CONTAINER(frame), drawing_area);
