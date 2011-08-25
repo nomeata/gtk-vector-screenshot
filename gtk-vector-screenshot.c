@@ -47,6 +47,8 @@ const gchar *type;
 GdkAtom pdfscreenshot_atom;
 char *supported_str = "supported";
 
+XErrorHandler old_handler = (XErrorHandler) 0 ;
+
 /*
  * This function handles the file type combo box callback in the Save As
  * dialogue. I would have expected that such functionality is already provided
@@ -290,6 +292,18 @@ pdfscreenshot_window_create()
     gtk_widget_show_all(GTK_WIDGET(window));
 }
 
+/* 
+ * Ignore all BadWindow errors.
+ */
+int
+silent_error_handler (Display *display, XErrorEvent *error) 
+{
+    if (error->error_code != BadWindow) {
+        return old_handler (display, error);
+    }
+    return 0;
+}
+
 GdkFilterReturn
 pdfscreenshot_event_filter (GdkXEvent *xevent, GdkEvent *event, gpointer data)
 {
@@ -299,10 +313,12 @@ pdfscreenshot_event_filter (GdkXEvent *xevent, GdkEvent *event, gpointer data)
         XTextProperty supported;
         XStringListToTextProperty(&supported_str, 1, &supported);
 
+        old_handler = XSetErrorHandler (silent_error_handler);
         XSetTextProperty(ev->xmap.display,
             ev->xmap.window,
             &supported,
             gdk_x11_atom_to_xatom(pdfscreenshot_atom));
+        (void) XSetErrorHandler (old_handler);
     } else if (ev->type == ClientMessage &&
             ev->xclient.message_type == gdk_x11_atom_to_xatom(pdfscreenshot_atom)) {
         if (event->any.window != NULL) {
