@@ -1,3 +1,12 @@
+gtk-vector-screenshot (0.3.1-1) UNRELEASED; urgency=low
+
+  * New upstream version
+    + Prevents BadWindow X-Protocol errors in random application. Thanks to
+      Petr Gajdůšek for reporting, analyzing and fixing the bug.  (Closes:
+      #639328)
+
+ -- Joachim Breitner <nomeata@debian.org>  Sat, 27 Aug 2011 10:56:57 +0200
+
 gtk-vector-screenshot (0.3-1) unstable; urgency=low
 
   * New upstream release, works with metacity now. 
