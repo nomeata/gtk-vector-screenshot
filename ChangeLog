@@ -1,3 +1,11 @@
+gtk-vector-screenshot (0.3.1)
+
+  * Petr Gajdůšek <gajdusek.petr@centrum.cz> reported, analyized and patched
+    an issue causing gtk application to crash with BadWindow errors when the
+    gtk-vector-screenshot module is loaded.
+
+ -- Joachim Breitner <mail@joachim-breitner.de>  Sat, 27 Aug 2011 10:55:43 +0200
+
 gtk-vector-screenshot (0.3)
 
   * Uses code from xwininfo to reliably find the right X window, even with
