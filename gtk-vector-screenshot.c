@@ -311,14 +311,22 @@ pdfscreenshot_event_filter (GdkXEvent *xevent, GdkEvent *event, gpointer data)
 
     if (ev->type == MapNotify) {
         XTextProperty supported;
+        GdkDisplay *display = gdk_x11_lookup_xdisplay(ev->xmap.display);
+
         XStringListToTextProperty(&supported_str, 1, &supported);
 
-        old_handler = XSetErrorHandler (silent_error_handler);
+        if (display)
+            gdk_x11_display_error_trap_push(display);
+        else
+            gdk_error_trap_push();
         XSetTextProperty(ev->xmap.display,
             ev->xmap.window,
             &supported,
             gdk_x11_atom_to_xatom(pdfscreenshot_atom));
-        (void) XSetErrorHandler (old_handler);
+        if (display)
+            gdk_x11_display_error_trap_pop_ignored(display);
+        else
+            gdk_error_trap_pop_ignored();
     } else if (ev->type == ClientMessage &&
             ev->xclient.message_type == gdk_x11_atom_to_xatom(pdfscreenshot_atom)) {
         if (event->any.window != NULL) {
