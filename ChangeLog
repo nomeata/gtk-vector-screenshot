@@ -1,3 +1,9 @@
+gtk-vector-screenshot (0.3.2)
+
+  * The BadWindow error situation was futher improved by Michel Dänzer.
+
+ -- Joachim Breitner <mail@joachim-breitner.de>  Mon, 17 Oct 2011 19:37:46 +0200
+
 gtk-vector-screenshot (0.3.1)
 
   * Petr Gajdůšek <gajdusek.petr@centrum.cz> reported, analyized and patched
