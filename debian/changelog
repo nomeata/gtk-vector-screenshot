@@ -1,11 +1,11 @@
-gtk-vector-screenshot (0.3.2-1) UNRELEASED; urgency=low
+gtk-vector-screenshot (0.3.2-1) unstable; urgency=low
 
   * New upstream version
     + The BadWindow error situation was futher improved by Michel Dänzer.
       (Closes: # 645509)
 
 
- -- Joachim Breitner <nomeata@debian.org>  Mon, 17 Oct 2011 19:39:09 +0200
+ -- Joachim Breitner <nomeata@debian.org>  Mon, 17 Oct 2011 19:45:09 +0200
 
 gtk-vector-screenshot (0.3.1-1) unstable; urgency=low
 
