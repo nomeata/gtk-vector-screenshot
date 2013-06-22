@@ -16,6 +16,7 @@ take_vector_screenshot_SOURCES = take-vector-screenshot.c clientwin.c clientwin.
 
 take_vector_screenshot_LDFLAGS = \
 	$(GTK3_LIBS) \
+	$(X_LIBS) \
 	@LDFLAGS@
 
 bin_PROGRAMS = take-vector-screenshot
