@@ -1,9 +1,9 @@
-gtk-vector-screenshot (0.3.2.1-1) UNRELEASED; urgency=low
+gtk-vector-screenshot (0.3.2.1-1) unstable; urgency=low
 
   * Fix "FTBFS: ld: clientwin.o: undefined reference to symbol
     'XGetWindowAttributes'" (Closes: #713542)
 
- -- Joachim Breitner <nomeata@debian.org>  Sat, 22 Jun 2013 22:13:43 +0200
+ -- Joachim Breitner <nomeata@debian.org>  Sat, 22 Jun 2013 22:16:29 +0200
 
 gtk-vector-screenshot (0.3.2-1) unstable; urgency=low
 
