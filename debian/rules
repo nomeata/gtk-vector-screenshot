@@ -3,9 +3,11 @@
 include /usr/share/cdbs/1/rules/debhelper.mk
 include /usr/share/cdbs/1/class/autotools.mk
 
+DEB_CONFIGURE_EXTRA_FLAGS += --libdir=\$${prefix}/lib/$(DEB_HOST_MULTIARCH)
+
 common-install-arch::
 	find $(DEB_DESTDIR) -name "*.la" -delete
 
-DEB_DH_MAKESHLIBS_ARGS_ALL += --exclude=usr/lib/gtk-2.0/modules
-DEB_DH_MAKESHLIBS_ARGS_ALL += --exclude=usr/lib/gtk-3.0/modules
+DEB_DH_MAKESHLIBS_ARGS_ALL += --exclude=usr/lib/$(DEB_HOST_MULTIARCH)/gtk-2.0/modules
+DEB_DH_MAKESHLIBS_ARGS_ALL += --exclude=usr/lib/$(DEB_HOST_MULTIARCH)/gtk-3.0/modules
 

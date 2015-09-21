@@ -1,3 +1,10 @@
+gtk-vector-screenshot (0.3.2.1-2) UNRELEASED; urgency=medium
+
+  * Install GTK modules into MA directories. Closes: 693050
+    Thanks to Iain for the patch, and Andreas Henriksson for the nudge.
+
+ -- Joachim Breitner <nomeata@debian.org>  Mon, 21 Sep 2015 08:51:33 +0200
+
 gtk-vector-screenshot (0.3.2.1-1) unstable; urgency=low
 
   * Fix "FTBFS: ld: clientwin.o: undefined reference to symbol
