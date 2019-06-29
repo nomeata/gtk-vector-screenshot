@@ -55,13 +55,13 @@ http://www.joachim-breitner.de/archive/gtk-vector-screenshot/
 
 For the list of changes, see ChangeLog.
 
-The code is hosted on gitorious.org:
-https://gitorious.org/gtk-vector-screenshot/gtk-vector-screenshot
+The code is hosted on GitHub:
+https://github.com/nomeata/gtk-vector-screenshot
 
 You can pull from the repository via
-git clone git://gitorious.org/gtk-vector-screenshot/gtk-vector-screenshot.git
+git clone https://github.com/nomeata/gtk-vector-screenshot.git
 or if you are registered with gitorious, via
-git@gitorious.org:gtk-vector-screenshot/gtk-vector-screenshot.git
+git@github.com:nomeata/gtk-vector-screenshot.git
 
 Feel free to submit patches, but also feel free to contact me first with your
 ideas, in case I have different plans.
