@@ -72,7 +72,7 @@ BUGS and TODOs
  * The screenshot is taken the moment you press Save in the file chooser
    dialogue, not when you press the “Take vector screenshot” button.
  * Make the preview widget behave more sensible with regard to resizes.
- * Less hakish setting of the GTK_VECTOR_SCREENSHOT property.
+ * Less hackish setting of the GTK_VECTOR_SCREENSHOT property.
  * Fallback code without IPC for windows, as for version 0.2.
  * Use GtkInvisible for the grab in take-vector-screenshot.c, as that is what
    its meant for, it seems.
