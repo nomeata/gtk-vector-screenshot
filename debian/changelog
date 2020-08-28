@@ -1,4 +1,4 @@
-gtk-vector-screenshot (0.3.3-1) UNRELEASED; urgency=medium
+gtk-vector-screenshot (0.3.3-1) unstable; urgency=medium
 
   * Drop gtk2 dependency (Closes: 967479)
 
