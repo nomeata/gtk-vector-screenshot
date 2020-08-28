@@ -1,3 +1,10 @@
+gtk-vector-screenshot (0.3.3)
+
+  * Drop the noop gtk2 module (used to quench a warning about missing gtk
+    module), set GTK3_MODULES instead.
+
+ -- Joachim Breitner <mail@joachim-breitner.de>  Sat, 22 Jun 2013 22:13:25 +0200
+
 gtk-vector-screenshot (0.3.2.1)
 
   * Fix linking problem

@@ -29,5 +29,3 @@ take_screenshotdir  = $(datadir)/applications
 dist_take_screenshot_DATA = take-vector-screenshot.desktop
 
 EXTRA_DIST = 52load-gtk-vector-screenshot-gtk-module
-
-SUBDIRS = dummy-module

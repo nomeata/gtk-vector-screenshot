@@ -1,3 +1,9 @@
+gtk-vector-screenshot (0.3.3-1) UNRELEASED; urgency=medium
+
+  * Drop gtk2 dependency (Closes: 967479)
+
+ -- Joachim Breitner <nomeata@debian.org>  Fri, 28 Aug 2020 10:09:51 +0200
+
 gtk-vector-screenshot (0.3.2.1-2) unstable; urgency=medium
 
   * Install GTK modules into MA directories. Closes: 693050

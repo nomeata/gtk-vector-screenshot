@@ -1,6 +1,6 @@
-AC_INIT(gtk-vector-screenshot, 0.3.2.1, mail@joachim-breitner.de)
+AC_INIT(gtk-vector-screenshot, 0.3.3, mail@joachim-breitner.de)
 AC_PREREQ(2.50)
-AC_COPYRIGHT([Copyright 2011 Joachim Breitner])
+AC_COPYRIGHT([Copyright 2011-2020 Joachim Breitner])
 
 
 dnl ################################################################
@@ -37,10 +37,6 @@ AC_TYPE_SIZE_T
 AC_EXEEXT
 
 PKG_CHECK_MODULES(GTK3, [gtk+-3.0 >= 2.90])
-AC_SUBST(GTK_CFLAGS)
-AC_SUBST(GTK_LIBS)
-
-PKG_CHECK_MODULES(GTK2, [gtk+-2.0])
 AC_SUBST(GTK3_CFLAGS)
 AC_SUBST(GTK3_LIBS)
 
@@ -62,7 +58,6 @@ dnl # Output the Makefiles
 dnl ################################################################
 AC_CONFIG_FILES([
 Makefile
-dummy-module/Makefile
 ])
 
 AC_OUTPUT
