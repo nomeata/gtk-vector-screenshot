@@ -2,6 +2,7 @@ gtk-vector-screenshot (0.3.3-2) UNRELEASED; urgency=medium
 
   * Trim trailing whitespace.
   * Use secure URI in Homepage field.
+  * Bump debhelper from deprecated 7 to 10.
 
  -- Debian Janitor <janitor@jelmer.uk>  Tue, 15 Nov 2022 00:14:16 -0000
 
