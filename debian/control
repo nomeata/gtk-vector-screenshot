@@ -9,8 +9,8 @@ Build-Depends:
  pkg-config,
  libgtk-3-dev,
 Homepage: https://www.joachim-breitner.de/projects#gtk-vector-screenshot
-VCS-Git: git://git.nomeata.de/gtk-vector-screenshot.git
-VCS-Browser: http://git.nomeata.de/?p=gtk-vector-screenshot.git
+Vcs-Git: git://git.nomeata.de/gtk-vector-screenshot.git
+Vcs-Browser: http://git.nomeata.de/?p=gtk-vector-screenshot.git
 
 Package: gtk-vector-screenshot
 Architecture: any
