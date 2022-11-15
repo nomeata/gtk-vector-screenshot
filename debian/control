@@ -19,4 +19,3 @@ Description: takes screenshots of applications as PDF or SVG files
  This gtk module allows you to take a screenshot of a running gtk-3 application
  as a vector image, with fully scalable graphics and selectable text. It
  supports rendering the application to PDF, SVG and PostScript.
-
