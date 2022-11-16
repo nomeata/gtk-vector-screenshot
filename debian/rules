@@ -10,4 +10,3 @@ common-install-arch::
 
 DEB_DH_MAKESHLIBS_ARGS_ALL += --exclude=usr/lib/$(DEB_HOST_MULTIARCH)/gtk-2.0/modules
 DEB_DH_MAKESHLIBS_ARGS_ALL += --exclude=usr/lib/$(DEB_HOST_MULTIARCH)/gtk-3.0/modules
-
